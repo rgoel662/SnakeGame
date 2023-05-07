@@ -1,4 +1,5 @@
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 /**
  *	Snake Game - <Description goes here>
@@ -12,14 +13,13 @@ public class SnakeGame {
 	private SnakeBoard board;	// the game board
 	private Coordinate target;	// the target for the snake
 	private int score;			// the score of the game
-	private boolean endGame;
+	private boolean endGame;	// whether the game is over or not
 
 	/*	Constructor	*/
 	public SnakeGame() { 
 		board = new SnakeBoard(10, 15);
 		snake = new Snake(new Coordinate(3, 3));
 		target = new Coordinate(1, 7);
-		board.printBoard(snake, target);
 		score = 0;
 		endGame = false;
 	}
@@ -51,6 +51,11 @@ public class SnakeGame {
 			if (newLoc == null)
 				continue;
 
+			if (snake.contains(newLoc) || newLoc.getX() < 0 || newLoc.getX() >= board.getWidth() || 
+				newLoc.getY() < 0 || newLoc.getY() >= board.getHeight()){
+				endGame = true;
+			}
+
 			if (newLoc.equals(target)){
 				snake.eat(target);
 				chooseTarget();
@@ -59,10 +64,6 @@ public class SnakeGame {
 				snake.move(newLoc);
 			}
 
-			if (snake.contains(newLoc) || newLoc.getX() < 0 || newLoc.getX() >= board.getWidth() || 
-				newLoc.getY() < 0 || newLoc.getY() >= board.getHeight()){
-				endGame = true;
-			}
 		}
 	}
 
@@ -81,11 +82,13 @@ public class SnakeGame {
 
 	/**
 	 * Gets the input from the user using Prompt
+	 * 
+	 * @return the coordinate the user wants to move to
 	 */
 	private Coordinate getInput(){
 		boolean gotten = false;
 		while (!gotten){
-			String input = Prompt.getString("Score: 0 (w - North, s - South, d - East, a - West, h - Help)");
+			String input = Prompt.getString("Score: "+ score +" (w - North, s - South, d - East, a - West, h - Help)");
 			if (input.equals("w")){
 				return new Coordinate(snake.get(0).getValue().getX(), snake.get(0).getValue().getY() - 1);
 			} else if (input.equals("s")){
@@ -115,26 +118,50 @@ public class SnakeGame {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Saves the game, then ends it.
+	 */
 	public void saveGame(){
 		String decision = Prompt.getString("Save game [y/n]");
 
 		if (decision.equals("n")) return;
 
 		System.out.println("\nSaving game to snakeGameSave.txt");
-		char[][] saveBoard = board.getBoard();
-
+		
 		PrintWriter output = FileUtils.openToWrite("snakeGameSave.txt");
-		for (int i = 0; i < saveBoard.length; i++){
-			for (int j = 0; j < saveBoard[0].length; j++){
-				output.print(saveBoard[i][j]);
-			}
-			output.println();
+
+		output.println(board.getHeight() + " " + board.getWidth());
+
+		output.println(target.getX() + " " + target.getY());
+		for (int i = 0; i < snake.size(); i++) {
+			output.println(snake.get(i).getValue().getX() + " " + snake.get(i).getValue().getY());
 		}
+
+		output.close();
 	}
 
+	/**
+	 * Restores the game
+	 */
 	public void restoreGame(){
-		
+		Scanner reader = FileUtils.openToRead("snakeGameSave.txt");
+
+		board = new SnakeBoard(reader.nextInt(), reader.nextInt());
+		target = new Coordinate(reader.nextInt(), reader.nextInt());
+		snake.clear();
+
+		while (reader.hasNext()) {
+			snake.add(new Coordinate(reader.nextInt(), reader.nextInt()));
+		}
+
+		score = snake.size() - 5;
+	}
+
+	public void endGame(){
+		System.out.println("\nGame is over");
+		System.out.println("\nScore = " + score);
+		System.out.println("\nThanks for playing SnakeGame!");
 	}
 	
 	/**	Print the game introduction	*/

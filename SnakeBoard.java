@@ -19,26 +19,11 @@ public class SnakeBoard {
 			}
 		}
 	}
-
-	public SnakeBoard(char[][] board) {
-		this.board = board;
-	}
 	
 	/**
 	 *	Print the board to the screen.
 	 */
 	public void printBoard(Snake snake, Coordinate target) {
-		// Set the appropriate characters
-		board[target.getY()][target.getX()] = '+';
-		for (int i = 0; i < snake.size(); i++) {
-			if (i == 0){
-				System.out.println("this ran");
-				board[snake.get(i).getValue().getY()][snake.get(i).getValue().getX()] = '@';
-				System.out.println(board[snake.get(i).getValue().getY()][snake.get(i).getValue().getX()]);
-				System.out.println(snake.get(i).getValue().getY() + " " + snake.get(i).getValue().getX());
-			}else
-				board[snake.get(i).getValue().getY()][snake.get(i).getValue().getX()] = '*';
-		}
 
 		// Print the top border
 		System.out.print("+ ");
@@ -51,7 +36,18 @@ public class SnakeBoard {
 		for (int i = 0; i < board.length; i++) {
 			System.out.print("| ");
 			for (int j = 0; j < board[0].length; j++) {
-				System.out.print(board[i][j] + " ");
+				Coordinate temp = new Coordinate(j, i);
+				if (snake.contains(temp)) {
+					if (temp.equals(snake.get(0).getValue())) {
+						System.out.print("@ ");
+					} else {
+						System.out.print("* ");
+					}
+				} else if (target.equals(temp)) {
+					System.out.print("+ ");
+				} else {
+					System.out.print(board[i][j] + " ");
+				}
 			}
 			System.out.println("|");
 		}

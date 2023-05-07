@@ -17,7 +17,7 @@ public class Snake extends SinglyLinkedList<Coordinate>{
 	
 	// Move the snake in the given direction
 	public void move(Coordinate newCoord){
-		Coordinate oldVal = new Coordinate(get(0).getValue().getX(), get(0).getNext().getValue().getY());
+		Coordinate oldVal = new Coordinate(get(0).getValue().getX(), get(0).getValue().getY());
 
 		set(0, newCoord);
 		// Move the snake
