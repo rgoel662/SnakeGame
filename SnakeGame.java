@@ -2,10 +2,14 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
- *	Snake Game - <Description goes here>
+ *	Snake Game - The classic snake game. A snake will move around on a board
+ * 	trying to eat a target. Each time it eats a target, it will grow in size
+ *  and a new target will appear on the board. If the snake runs into the
+ * 	side of the board or if it runs into itself, it will die, and the game
+ *  will end.
  *	
- *	@author	
- *	@since	
+ *	@author	Rishabh Goel	
+ *	@since	5/6/23
  */
 public class SnakeGame {
 	
@@ -42,7 +46,6 @@ public class SnakeGame {
 	/**
 	 * Plays the game
 	 */
-
 	public void play(){
 		while (!endGame){
 			board.printBoard(snake, target);
@@ -51,8 +54,8 @@ public class SnakeGame {
 			if (newLoc == null)
 				continue;
 
-			if (snake.contains(newLoc) || newLoc.getX() < 0 || newLoc.getX() >= board.getWidth() || 
-				newLoc.getY() < 0 || newLoc.getY() >= board.getHeight()){
+			if (snake.contains(newLoc) || newLoc.getX() < 0 || newLoc.getX() >= 
+				board.getWidth() || newLoc.getY() < 0 || newLoc.getY() >= board.getHeight()){
 				endGame = true;
 			}
 
@@ -88,15 +91,20 @@ public class SnakeGame {
 	private Coordinate getInput(){
 		boolean gotten = false;
 		while (!gotten){
-			String input = Prompt.getString("Score: "+ score +" (w - North, s - South, d - East, a - West, h - Help)");
+			String input = Prompt.getString("Score: "+ score +
+				" (w - North, s - South, d - East, a - West, h - Help)");
 			if (input.equals("w")){
-				return new Coordinate(snake.get(0).getValue().getX(), snake.get(0).getValue().getY() - 1);
+				return new Coordinate(snake.get(0).getValue().getX(), 
+					snake.get(0).getValue().getY() - 1);
 			} else if (input.equals("s")){
-				return new Coordinate(snake.get(0).getValue().getX(), snake.get(0).getValue().getY() + 1);
+				return new Coordinate(snake.get(0).getValue().getX(), 
+					snake.get(0).getValue().getY() + 1);
 			} else if (input.equals("d")){
-				return new Coordinate(snake.get(0).getValue().getX() + 1, snake.get(0).getValue().getY());
+				return new Coordinate(snake.get(0).getValue().getX() + 1, 
+					snake.get(0).getValue().getY());
 			} else if (input.equals("a")){
-				return new Coordinate(snake.get(0).getValue().getX() - 1, snake.get(0).getValue().getY());
+				return new Coordinate(snake.get(0).getValue().getX() - 1, 
+					snake.get(0).getValue().getY());
 			} else if (input.equals("h")) {
 				helpMenu();
 				gotten = true;
@@ -157,7 +165,10 @@ public class SnakeGame {
 
 		score = snake.size() - 5;
 	}
-
+	
+	/**
+	 * Ends the game 
+	 */
 	public void endGame(){
 		System.out.println("\nGame is over");
 		System.out.println("\nScore = " + score);

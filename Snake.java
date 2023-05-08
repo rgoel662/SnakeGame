@@ -1,7 +1,8 @@
 /**
  *	The Snake is a singly linked list with snake behaviors.
- *	@author	
- *	@since	
+ * 
+ *	@author	Rishabh Goel	
+ *	@since	5/6/23
  */
 public class Snake extends SinglyLinkedList<Coordinate>{
 	

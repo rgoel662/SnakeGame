@@ -1,8 +1,9 @@
 /**
- *	<Describe the SnakeBoard here>
+ *	This is the board for the snake game. It has a board, and its
+ *  primary function is to print the board for the game
  *
- *	@author	
- *	@since	
+ *	@author	Rishabh Goel
+ *	@since	5/6/23
  */
 public class SnakeBoard {
 	
@@ -21,7 +22,10 @@ public class SnakeBoard {
 	}
 	
 	/**
-	 *	Print the board to the screen.
+	 * Print the board to the screen.
+	 * 
+	 * @param snake		The snake to print
+	 * @param target	The target to print
 	 */
 	public void printBoard(Snake snake, Coordinate target) {
 
@@ -59,8 +63,6 @@ public class SnakeBoard {
 		}
 		System.out.println("+");
 	}
-	
-	/* Helper methods go here	*/
 	
 	/*	Accessor methods	*/
 	public char[][] getBoard() { return board; }
